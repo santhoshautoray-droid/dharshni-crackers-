@@ -1,0 +1,177 @@
+{
+  "business": {
+    "name": "Dharshini Crackers – Tiruvallur",
+    "category": "Fireworks Store",
+    "address": "Shop No. 139, Shakti Nagar, near Vivekananda School, near Salai Road, Tiruvaloor, Tamil Nadu 602001, India",
+    "phone": "+91 96775 85657",
+    "coordinates": {
+      "lat": 13.1294422,
+      "lng": 79.8989643
+    },
+    "googleRating": 4.8,
+    "googleReviewCount": 55,
+    "hours": "8:00 AM – 8:00 PM daily",
+    "mapsUrl": "https://www.google.com/maps/place/Dharshini+Crackers+%E2%80%93+Tiruvallur/@13.1294422,79.8989643,17z/",
+    "heroAnnouncement": "Official Tiruvallur Showroom · Open Daily 8:00 AM – 8:00 PM · Verified Google Business Listing"
+  },
+  "categories": [
+    {
+      "id": "all",
+      "name": "All Fireworks",
+      "description": "Full showroom collection for Diwali celebrations."
+    },
+    {
+      "id": "gift-boxes",
+      "name": "Gift Boxes & Hampers",
+      "description": "Carefully curated family celebration hampers with 30-50 varieties."
+    },
+    {
+      "id": "sky-shots",
+      "name": "Aerial Sky Shots",
+      "description": "Multi-tube repeating cake fireworks with vibrant burst patterns."
+    },
+    {
+      "id": "sparklers",
+      "name": "Sparklers & Flares",
+      "description": "Long-burning handheld color sparklers and sparkling sticks."
+    },
+    {
+      "id": "chakkars",
+      "name": "Ground Chakkars",
+      "description": "High-speed spinning ground wheels with brilliant gold rings."
+    },
+    {
+      "id": "flower-pots",
+      "name": "Flower Pots & Fountains",
+      "description": "Towering vertical fountain sparks with multi-colored showers."
+    },
+    {
+      "id": "rockets",
+      "name": "Celebration Rockets",
+      "description": "High-altitude whistling screamers with aerial color breaks."
+    }
+  ],
+  "products": [
+    {
+      "id": "dc-001",
+      "name": "Royal Velvet Celebration Box",
+      "slug": "royal-velvet-celebration-box",
+      "category": "gift-boxes",
+      "price": 4999,
+      "originalPrice": 5999,
+      "packSize": "1 Deluxe Hamper (35 Items)",
+      "image": "/images/gift-box.jpg",
+      "inStock": true,
+      "featured": true,
+      "productType": "Hamper Box",
+      "description": "Our signature flagship festival hamper containing 35 hand-picked varieties: aerial repeaters, golden flower pots, spinning chakkars, sparklers, and novelty fireworks packed in royal velvet luxury packaging.",
+      "safetyInfo": "Follow individual item instructions inside. Open outdoor space recommended.",
+      "demoNote": "Showroom demo catalog data"
+    },
+    {
+      "id": "dc-002",
+      "name": "Celestial 25-Shot Aerial Cake",
+      "slug": "celestial-25-shot-aerial-cake",
+      "category": "sky-shots",
+      "price": 1850,
+      "originalPrice": 2200,
+      "packSize": "1 Cake (25 Repeater Shots)",
+      "image": "/images/sky-shots.jpg",
+      "inStock": true,
+      "featured": true,
+      "productType": "Aerial Cake",
+      "description": "Spectacular multi-shot aerial barrage launching 25 timed bursts with golden crackling palms and electric purple dahlias reaching up to 120 feet.",
+      "safetyInfo": "Place on hard, level ground. Minimum 25-meter clearance from buildings.",
+      "demoNote": "Showroom demo catalog data"
+    },
+    {
+      "id": "dc-003",
+      "name": "Imperial Golden Fountain (Pack of 5)",
+      "slug": "imperial-golden-fountain",
+      "category": "flower-pots",
+      "price": 650,
+      "originalPrice": 750,
+      "packSize": "5 Cylinders / Pack",
+      "image": "/images/sparkler-fountain.jpg",
+      "inStock": true,
+      "featured": false,
+      "productType": "Fountain",
+      "description": "Towering cone fountains projecting an 8-foot curtain of golden titanium sparks transitioning into lavender pearls and crackling silver willows.",
+      "safetyInfo": "Light fuse at arm's length. Keep bucket of water and sand ready.",
+      "demoNote": "Showroom demo catalog data"
+    },
+    {
+      "id": "dc-004",
+      "name": "Cyclone Spinner Ground Chakkars",
+      "slug": "cyclone-spinner-ground-chakkars",
+      "category": "chakkars",
+      "price": 420,
+      "originalPrice": 480,
+      "packSize": "10 Pieces / Box",
+      "image": "/images/chakkars.jpg",
+      "inStock": true,
+      "featured": false,
+      "productType": "Ground Wheel",
+      "description": "High-velocity rotating wheels that spin vigorously on flat pavement creating hypnotic concentric circles of emerald green and golden sparks.",
+      "safetyInfo": "Light only on smooth flat ground. Never ignite on grass or loose sand.",
+      "demoNote": "Showroom demo catalog data"
+    },
+    {
+      "id": "dc-005",
+      "name": "Electric Violet & Gold Sparklers (15 cm)",
+      "slug": "electric-violet-gold-sparklers",
+      "category": "sparklers",
+      "price": 240,
+      "originalPrice": 280,
+      "packSize": "10 Pieces / Pack",
+      "image": "/images/sparklers.jpg",
+      "inStock": true,
+      "featured": false,
+      "productType": "Handheld Sparkler",
+      "description": "Low-smoke, long-duration handheld festival sparklers producing vibrant violet sparks followed by warm golden crackles for festive family evenings.",
+      "safetyInfo": "Adult supervision required. Extinguish immediately in a bucket of water.",
+      "demoNote": "Showroom demo catalog data"
+    },
+    {
+      "id": "dc-006",
+      "name": "Titan Whistling Altitude Rockets",
+      "slug": "titan-whistling-altitude-rockets",
+      "category": "rockets",
+      "price": 890,
+      "originalPrice": 1050,
+      "packSize": "5 Heavy Rockets",
+      "image": "/images/rockets.jpg",
+      "inStock": true,
+      "featured": false,
+      "productType": "Rocket",
+      "description": "High-thrust aerodynamic celebration rockets that ascend with an intense sonic whistle before bursting into a multi-colored peony at the peak.",
+      "safetyInfo": "Launch only from a dedicated rocket launch tube. Never hold in hand.",
+      "demoNote": "Showroom demo catalog data"
+    }
+  ],
+  "inquiries": [
+    {
+      "id": "INQ-1001",
+      "customerName": "Karthik Subramanian",
+      "customerPhone": "+91 98401 23456",
+      "customerNotes": "Diwali family order pickup on weekend",
+      "items": [
+        {
+          "productId": "dc-001",
+          "productName": "Royal Velvet Celebration Box",
+          "price": 4999,
+          "quantity": 1
+        },
+        {
+          "productId": "dc-002",
+          "productName": "Celestial 25-Shot Aerial Cake",
+          "price": 1850,
+          "quantity": 2
+        }
+      ],
+      "totalAmount": 8699,
+      "status": "Confirmed",
+      "createdAt": "2026-09-25T14:30:00Z"
+    }
+  ]
+}
