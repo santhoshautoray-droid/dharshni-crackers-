@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import FireworksCanvas from "./FireworksCanvas";
+import { soundEngine } from "@/lib/sound-engine";
 import { ArrowUpRight, Star, Clock, MapPin, Sparkles, Phone } from "lucide-react";
 import { BusinessInfo } from "@/lib/store-data";
 
@@ -128,8 +129,11 @@ export default function HeroSection({ business }: HeroSectionProps) {
           </div>
         </div>
 
-        <div className="pointer-events-auto mt-4 text-xs font-medium text-slate-300 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-2/70 border border-white/10 shadow-sm">
-          <Sparkles size={13} className="text-brand-gold" />
+        <div
+          onClick={() => soundEngine.handleSoundButtonClick()}
+          className="pointer-events-auto mt-4 text-xs font-semibold text-brand-goldLight flex items-center gap-2 px-4 py-2 rounded-full bg-surface-2/90 border border-brand-gold/30 shadow-md shadow-brand-gold/10 cursor-pointer hover:scale-105 active:scale-95 transition-all select-none"
+        >
+          <Sparkles size={14} className="text-brand-gold animate-spin-slow" />
           <span>Tap anywhere on the sky to burst fireworks with sound! 🎆</span>
         </div>
       </div>

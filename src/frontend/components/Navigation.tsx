@@ -12,9 +12,18 @@ interface NavigationProps {
 
 export default function Navigation({ cartCount, onOpenCart }: NavigationProps) {
   const [scrolled, setScrolled] = useState(false);
-  const [audioActive, setAudioActive] = useState(!soundEngine.getIsMuted());
+  const [audioActive, setAudioActive] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [cartBump, setCartBump] = useState(false);
+
+  useEffect(() => {
+    // Synchronize UI with the sound engine
+    const unsubscribe = soundEngine.subscribe((active) => {
+      setAudioActive(active);
+    });
+    setAudioActive(soundEngine.isActive());
+    return unsubscribe;
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,11 +33,10 @@ export default function Navigation({ cartCount, onOpenCart }: NavigationProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Browser autoplay requirement: prime audio context on first user click, tap, or interaction
+  // Browser autoplay requirement: prime audio context on first user click, tap, or interaction anywhere
   useEffect(() => {
     const enableAudio = () => {
       soundEngine.unlockAudio();
-      setAudioActive(!soundEngine.getIsMuted());
     };
     window.addEventListener("click", enableAudio, { once: true, passive: true });
     window.addEventListener("touchstart", enableAudio, { once: true, passive: true });
@@ -158,17 +166,18 @@ export default function Navigation({ cartCount, onOpenCart }: NavigationProps) {
 
               {/* Web Audio Sound Synthesizer Button */}
               <button
+                id="nav-sound-btn"
                 onClick={toggleAudio}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border transition-all ${
                   audioActive
                     ? "bg-brand-purple/20 text-brand-purpleLight border-brand-purple shadow-sm shadow-brand-purple/30"
-                    : "bg-white/5 text-slate-400 border-white/10 hover:text-white hover:bg-white/10"
+                    : "bg-brand-gold/15 text-brand-gold border-brand-gold/40 hover:bg-brand-gold/25 shadow-sm shadow-brand-gold/20 animate-pulse"
                 }`}
-                title="Toggle realistic fireworks sound effects"
-                aria-label="Toggle sound"
+                title={audioActive ? "Sound is ON (Click to Mute)" : "Sound is OFF (Click once to Enable Sound)"}
+                aria-label={audioActive ? "Mute fireworks sound" : "Enable fireworks sound"}
               >
                 {audioActive ? <Volume2 size={14} className="text-brand-purpleLight" /> : <VolumeX size={14} />}
-                <span className="hidden sm:inline">{audioActive ? "Audio ON" : "Audio OFF"}</span>
+                <span>{audioActive ? "Audio ON" : "Enable Sound 🔊"}</span>
               </button>
 
               {/* Cart Drawer Trigger */}

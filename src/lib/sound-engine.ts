@@ -6,10 +6,31 @@
 class FireworksSoundEngine {
   private ctx: AudioContext | null = null;
   private isMuted: boolean = false;
+  private isUnlocked: boolean = false;
   private masterGain: GainNode | null = null;
+  private listeners: Set<(active: boolean) => void> = new Set();
 
   constructor() {
     // Sound is default ON per user preference
+  }
+
+  public subscribe(listener: (active: boolean) => void): () => void {
+    this.listeners.add(listener);
+    return () => this.listeners.delete(listener);
+  }
+
+  private notifyListeners(active: boolean): void {
+    this.listeners.forEach((fn) => {
+      try {
+        fn(active);
+      } catch (err) {
+        console.warn("Sound listener error", err);
+      }
+    });
+  }
+
+  public isActive(): boolean {
+    return !this.isMuted && this.isUnlocked && this.ctx !== null && this.ctx.state === "running";
   }
 
   public init(): void {
@@ -56,41 +77,40 @@ class FireworksSoundEngine {
       } catch {
         // Safe catch
       }
+      this.isUnlocked = true;
+      if (!this.isMuted) {
+        this.notifyListeners(true);
+      }
     }
   }
 
   /**
    * Handles user tapping the sound button.
-   * If sound was ON by default but suspended by mobile autoplay restrictions,
-   * the first tap wakes up the audio context and immediately plays a cracker burst,
-   * without requiring two clicks!
+   * If sound is not actively sounding, clicking immediately unlocks, turns it ON,
+   * and plays a celebratory cracker burst on the very first click!
    */
   public handleSoundButtonClick(): boolean {
-    const wasSuspended = !this.ctx || this.ctx.state === "suspended";
-    this.unlockAudio();
+    const active = this.isActive();
 
-    if (wasSuspended && !this.isMuted) {
-      // Sound was already supposed to be ON, but browser suspended it until this user click.
-      // Keep it ON and play an immediate celebration cracker burst!
+    if (!active) {
+      // User is clicking to ACTIVATE sound!
+      this.isMuted = false;
+      this.unlockAudio();
       if (this.masterGain && this.ctx) {
         this.masterGain.gain.setValueAtTime(0.55, this.ctx.currentTime);
       }
       this.playBurst(1.0);
+      this.notifyListeners(true);
       return true;
+    } else {
+      // User is clicking to MUTE sound!
+      this.isMuted = true;
+      if (this.masterGain && this.ctx) {
+        this.masterGain.gain.setValueAtTime(0, this.ctx.currentTime);
+      }
+      this.notifyListeners(false);
+      return false;
     }
-
-    // Normal toggle between muted and unmuted
-    this.isMuted = !this.isMuted;
-    if (this.masterGain && this.ctx) {
-      this.masterGain.gain.setValueAtTime(this.isMuted ? 0 : 0.55, this.ctx.currentTime);
-    }
-
-    if (!this.isMuted) {
-      // Play celebratory burst on turning sound ON
-      this.playBurst(1.0);
-    }
-
-    return !this.isMuted;
   }
 
   public toggle(): boolean {
