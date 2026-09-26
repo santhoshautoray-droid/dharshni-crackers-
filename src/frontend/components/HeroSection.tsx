@@ -38,15 +38,15 @@ export default function HeroSection({ business }: HeroSectionProps) {
       <FireworksCanvas id="hero-fireworks-canvas" autoLaunch={true} />
 
       {/* Hero Content Container */}
-      <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 text-center flex flex-col items-center">
+      <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 text-center flex flex-col items-center pointer-events-none">
         {/* Eyebrow Verified Tag */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold tracking-wider uppercase text-brand-purpleLight bg-brand-purple/10 border border-brand-purple/30 shadow-md shadow-brand-purple/10 mb-5 animate-in fade-in slide-in-from-top-4 duration-700">
+        <div className="pointer-events-auto inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold tracking-wider uppercase text-brand-purpleLight bg-brand-purple/10 border border-brand-purple/30 shadow-md shadow-brand-purple/10 mb-5 animate-in fade-in slide-in-from-top-4 duration-700">
           <span className="w-1.5 h-1.5 rounded-full bg-brand-purpleLight shadow-sm shadow-brand-purpleLight animate-pulse" />
           <span>TIRUVALLUR SHOWROOM · VERIFIED STORE</span>
         </div>
 
         {/* Display Headline with Outfit Font */}
-        <h1 className="font-display font-extrabold text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight text-white mb-4 leading-[1.05] drop-shadow-lg">
+        <h1 className="font-display font-extrabold text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight text-white mb-4 leading-[1.05] drop-shadow-lg select-none">
           <span>DHARSHINI CRACKERS</span>
           <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-brand-gold to-brand-amber mt-1">
             TIRUVALLUR
@@ -54,12 +54,12 @@ export default function HeroSection({ business }: HeroSectionProps) {
         </h1>
 
         {/* Supporting Copy */}
-        <p className="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-slate-100 font-medium leading-relaxed mb-8 drop-shadow">
+        <p className="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-slate-100 font-medium leading-relaxed mb-8 drop-shadow select-none">
           Welcome to the futuristic fireworks showroom. Discover hand-selected festival crackers, multi-tube aerial sky repeaters, and celebration hampers for an unforgettable Diwali.
         </p>
 
         {/* Responsive CTAs */}
-        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-8 w-full max-w-2xl">
+        <div className="pointer-events-auto flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-8 w-full max-w-2xl">
           <Link
             href="#showroom"
             className="btn group w-full sm:w-auto inline-flex items-center justify-center gap-3 px-6 py-3.5 rounded-full bg-gradient-to-r from-brand-purple to-brand-purpleDark hover:from-brand-purpleLight hover:to-brand-purple text-white font-semibold text-sm sm:text-base border border-white/20 shadow-lg shadow-brand-purple/40 hover:shadow-brand-purple/60 hover:-translate-y-0.5 active:scale-95 transition-all"
@@ -98,7 +98,7 @@ export default function HeroSection({ business }: HeroSectionProps) {
         </div>
 
         {/* Verified Store Metrics Bar (Double-Bezel) */}
-        <div className="bezel-card max-w-3xl w-full">
+        <div className="pointer-events-auto bezel-card max-w-3xl w-full">
           <div className="bezel-card-inner px-5 py-3.5 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs sm:text-sm text-slate-300">
             <div className="flex items-center gap-2">
               <Star size={16} className="text-brand-gold fill-brand-gold" />
@@ -128,9 +128,9 @@ export default function HeroSection({ business }: HeroSectionProps) {
           </div>
         </div>
 
-        <div className="mt-4 text-[11px] text-slate-500 flex items-center gap-1.5">
-          <Sparkles size={12} className="text-brand-gold" />
-          <span>Interactive Sky: Tap or click anywhere to launch custom fireworks!</span>
+        <div className="pointer-events-auto mt-4 text-xs font-medium text-slate-300 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-2/70 border border-white/10 shadow-sm">
+          <Sparkles size={13} className="text-brand-gold" />
+          <span>Tap anywhere on the sky to burst fireworks with sound! 🎆</span>
         </div>
       </div>
     </section>

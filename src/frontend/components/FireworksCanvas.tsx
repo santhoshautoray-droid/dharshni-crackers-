@@ -155,6 +155,7 @@ export default function FireworksCanvas({
     };
 
     const launch = (targetX: number, targetY: number) => {
+      soundEngine.unlockAudio();
       const parent = canvas.parentElement || document.body;
       const h = parent.clientHeight || window.innerHeight;
       const startX = targetX + (Math.random() - 0.5) * 50;
@@ -193,19 +194,39 @@ export default function FireworksCanvas({
     };
 
     if (autoLaunch) {
-      autoTimer = setTimeout(triggerAuto, 1500);
+      // Fire first welcoming firework immediately upon load (350ms) so mobile users see it right away
+      autoTimer = setTimeout(triggerAuto, 350);
     }
 
-    // Pointer detonation: non-blocking, ignores touches during scrolling
-    const handlePointerDown = (e: PointerEvent) => {
-      if ((e.target as HTMLElement).closest("a, button, input, select, textarea")) return;
+    // Interactive pointer & touch detonation across the entire hero parent container
+    let lastLaunchTime = 0;
+    const triggerAtCoords = (clientX: number, clientY: number, target: EventTarget | null) => {
+      const now = performance.now();
+      if (now - lastLaunchTime < 100) return;
+      if (target && (target as HTMLElement).closest("a, button, input, select, textarea, .btn")) {
+        return;
+      }
+      lastLaunchTime = now;
       const rect = canvas.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
-      const clickY = e.clientY - rect.top;
+      const clickX = clientX - rect.left;
+      const clickY = clientY - rect.top;
+      soundEngine.unlockAudio();
       launch(clickX, clickY);
     };
 
-    canvas.addEventListener("pointerdown", handlePointerDown, { passive: true });
+    const handlePointerDown = (e: PointerEvent) => {
+      triggerAtCoords(e.clientX, e.clientY, e.target);
+    };
+
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches && e.touches.length > 0) {
+        triggerAtCoords(e.touches[0].clientX, e.touches[0].clientY, e.target);
+      }
+    };
+
+    const parentEl = canvas.parentElement || canvas;
+    parentEl.addEventListener("pointerdown", handlePointerDown, { passive: true });
+    parentEl.addEventListener("touchstart", handleTouchStart, { passive: true });
 
     // Render loop
     const render = () => {
@@ -341,7 +362,8 @@ export default function FireworksCanvas({
       cancelAnimationFrame(animId);
       if (autoTimer) clearTimeout(autoTimer);
       window.removeEventListener("resize", resize);
-      canvas.removeEventListener("pointerdown", handlePointerDown);
+      parentEl.removeEventListener("pointerdown", handlePointerDown);
+      parentEl.removeEventListener("touchstart", handleTouchStart);
       if (observer) observer.disconnect();
     };
   }, [autoLaunch]);

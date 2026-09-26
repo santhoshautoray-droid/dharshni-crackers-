@@ -35,16 +35,66 @@ class FireworksSoundEngine {
     }
   }
 
-  public toggle(): boolean {
-    if (!this.ctx) this.init();
-    if (this.ctx && this.ctx.state === "suspended") {
-      this.ctx.resume().catch(() => {});
+  /**
+   * Unlock AudioContext on mobile devices (iOS Safari & Android Chrome)
+   * Plays a 1-sample silent buffer to activate the mobile audio pipeline synchronously
+   */
+  public unlockAudio(): void {
+    if (!this.ctx) {
+      this.init();
     }
+    if (this.ctx) {
+      if (this.ctx.state === "suspended") {
+        this.ctx.resume().catch(() => {});
+      }
+      try {
+        const buffer = this.ctx.createBuffer(1, 1, 22050);
+        const source = this.ctx.createBufferSource();
+        source.buffer = buffer;
+        source.connect(this.ctx.destination);
+        source.start(0);
+      } catch {
+        // Safe catch
+      }
+    }
+  }
+
+  /**
+   * Handles user tapping the sound button.
+   * If sound was ON by default but suspended by mobile autoplay restrictions,
+   * the first tap wakes up the audio context and immediately plays a cracker burst,
+   * without requiring two clicks!
+   */
+  public handleSoundButtonClick(): boolean {
+    const wasSuspended = !this.ctx || this.ctx.state === "suspended";
+    this.unlockAudio();
+
+    if (wasSuspended && !this.isMuted) {
+      // Sound was already supposed to be ON, but browser suspended it until this user click.
+      // Keep it ON and play an immediate celebration cracker burst!
+      if (this.masterGain && this.ctx) {
+        this.masterGain.gain.setValueAtTime(0.55, this.ctx.currentTime);
+      }
+      this.playBurst(1.0);
+      return true;
+    }
+
+    // Normal toggle between muted and unmuted
     this.isMuted = !this.isMuted;
     if (this.masterGain && this.ctx) {
-      this.masterGain.gain.setTargetAtTime(this.isMuted ? 0 : 0.55, this.ctx.currentTime, 0.05);
+      this.masterGain.gain.setValueAtTime(this.isMuted ? 0 : 0.55, this.ctx.currentTime);
     }
+
+    if (!this.isMuted) {
+      // Play celebratory burst on turning sound ON
+      this.playBurst(1.0);
+    }
+
     return !this.isMuted;
+  }
+
+  public toggle(): boolean {
+    return this.handleSoundButtonClick();
   }
 
   public getIsMuted(): boolean {

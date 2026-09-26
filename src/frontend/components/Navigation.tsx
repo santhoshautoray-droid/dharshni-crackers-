@@ -27,15 +27,18 @@ export default function Navigation({ cartCount, onOpenCart }: NavigationProps) {
   // Browser autoplay requirement: prime audio context on first user click, tap, or interaction
   useEffect(() => {
     const enableAudio = () => {
-      soundEngine.init();
+      soundEngine.unlockAudio();
+      setAudioActive(!soundEngine.getIsMuted());
     };
-    window.addEventListener("click", enableAudio, { once: true });
-    window.addEventListener("touchstart", enableAudio, { once: true });
-    window.addEventListener("pointerdown", enableAudio, { once: true });
-    window.addEventListener("keydown", enableAudio, { once: true });
+    window.addEventListener("click", enableAudio, { once: true, passive: true });
+    window.addEventListener("touchstart", enableAudio, { once: true, passive: true });
+    window.addEventListener("touchend", enableAudio, { once: true, passive: true });
+    window.addEventListener("pointerdown", enableAudio, { once: true, passive: true });
+    window.addEventListener("keydown", enableAudio, { once: true, passive: true });
     return () => {
       window.removeEventListener("click", enableAudio);
       window.removeEventListener("touchstart", enableAudio);
+      window.removeEventListener("touchend", enableAudio);
       window.removeEventListener("pointerdown", enableAudio);
       window.removeEventListener("keydown", enableAudio);
     };
@@ -50,7 +53,7 @@ export default function Navigation({ cartCount, onOpenCart }: NavigationProps) {
   }, [cartCount]);
 
   const toggleAudio = () => {
-    const active = soundEngine.toggle();
+    const active = soundEngine.handleSoundButtonClick();
     setAudioActive(active);
   };
 
