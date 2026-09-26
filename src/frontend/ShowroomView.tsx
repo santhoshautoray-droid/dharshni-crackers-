@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { StoreState, ProductItem, CartItem } from "@/backend/models/types";
-import { loadStoreState } from "@/lib/store-data";
+import { INITIAL_STORE_STATE, loadStoreState } from "@/lib/store-data";
 import Navigation from "./components/Navigation";
 import CustomCursor from "./components/CustomCursor";
 import HeroSection from "./components/HeroSection";
@@ -14,16 +15,18 @@ import SafetySection from "./components/SafetySection";
 import StoreLocation from "./components/StoreLocation";
 import Footer from "./components/Footer";
 import MobileBottomNav from "./components/MobileBottomNav";
-import CartDrawer from "./components/CartDrawer";
-import ProductDetailModal from "./components/ProductDetailModal";
-import OrderInquiryModal from "./components/OrderInquiryModal";
-import AdminPortalModal from "./components/AdminPortalModal";
 import { Check } from "lucide-react";
+
+// Dynamically split modals to minimize initial load bundle size and boost page opening speed
+const CartDrawer = dynamic(() => import("./components/CartDrawer"), { ssr: false });
+const ProductDetailModal = dynamic(() => import("./components/ProductDetailModal"), { ssr: false });
+const OrderInquiryModal = dynamic(() => import("./components/OrderInquiryModal"), { ssr: false });
+const AdminPortalModal = dynamic(() => import("./components/AdminPortalModal"), { ssr: false });
 
 const CART_STORAGE = "dharshini_cart_v2";
 
 export default function ShowroomView() {
-  const [storeState, setStoreState] = useState<StoreState>(loadStoreState);
+  const [storeState, setStoreState] = useState<StoreState>(INITIAL_STORE_STATE);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [activeProductDetail, setActiveProductDetail] = useState<ProductItem | null>(null);
@@ -32,7 +35,15 @@ export default function ShowroomView() {
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Sync with Backend API if available
+  // Client hydration of persisted state without blocking first paint
+  useEffect(() => {
+    const saved = loadStoreState();
+    if (saved && saved !== INITIAL_STORE_STATE) {
+      setStoreState(saved);
+    }
+  }, []);
+
+  // Sync with Backend API asynchronously in background
   useEffect(() => {
     fetch("/api/products")
       .then((res) => res.json())

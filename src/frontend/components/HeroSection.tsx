@@ -21,10 +21,11 @@ export default function HeroSection({ business }: HeroSectionProps) {
       {/* Background Cinematic Atmosphere Image Underlay */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <Image
-          src="/images/hero-bloom.jpg"
+          src="/images/hero-bloom.webp"
           alt="Fireworks in night sky"
           fill
           priority
+          sizes="100vw"
           className="object-cover object-center opacity-75 pointer-events-none scale-105"
         />
         {/* Soft radial glow vignette: text is razor-sharp while fireworks are richly visible */}

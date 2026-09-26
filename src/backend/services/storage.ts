@@ -8,6 +8,7 @@ const DATA_FILE = path.join(DATA_DIR, "store.json");
 
 // In-memory cache
 let inMemoryState: StoreState = JSON.parse(JSON.stringify(INITIAL_VERIFIED_DATA));
+let isLoaded = false;
 
 function ensureFileExists(): void {
   try {
@@ -23,11 +24,15 @@ function ensureFileExists(): void {
 }
 
 export function getBackendStoreState(): StoreState {
+  if (isLoaded && inMemoryState) {
+    return inMemoryState;
+  }
   try {
     ensureFileExists();
     if (fs.existsSync(DATA_FILE)) {
       const raw = fs.readFileSync(DATA_FILE, "utf-8");
       inMemoryState = JSON.parse(raw);
+      isLoaded = true;
     }
   } catch (err) {
     console.warn("Reading store data failed, using in-memory:", err);

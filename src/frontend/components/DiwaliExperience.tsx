@@ -52,7 +52,7 @@ export default function DiwaliExperience() {
         <div className="relative w-full h-[380px] sm:h-[460px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-black bg-surface-1">
           {/* Traditional Diwali Diyas & Fireworks Photography Background */}
           <Image
-            src="/images/diwali-night.jpg"
+            src="/images/diwali-night.webp"
             alt="Diwali festival lights and fireworks"
             fill
             className="object-cover opacity-45 mix-blend-lighten pointer-events-none"
